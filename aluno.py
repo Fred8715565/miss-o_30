@@ -3,28 +3,30 @@ caracteres_especiais = "!@#$%&*()-_=+[];:,.?/"
 
 # Função para verificar se a quantidade de alunos é válida
 def verificar_quantidade(quantidade_alunos):
-    if quantidade_alunos < 2:
-        print("Quantidade de alunos deve ser maior ou igual a 10 tente novamente mais tarde.")
-        print("O Sistema será encerrado e terá que rodar o sistema novamente.")
-
+    if quantidade_alunos < 3:
+        print("Quantidade de alunos inválida.")
+        print("O sistema será encerrado.")
         return False
+    return True
 
 
 # Função para verificar se o nome do aluno é válido
 def verificar_nome(nome):
-    if nome in caracteres_especiais or nome.isdigit():
-        print("Nome inválido! O nome deve conter apenas letras.")
-        print("O Sistema será encerrado e terá que rodar o sistema novamente.")
+    for c in nome:
+        if c in caracteres_especiais or c.isdigit():
+            print("Nome inválido! O nome deve conter apenas letras.")
+            print("O sistema será encerrado.")
+            return False
+    return True
 
-        return False
 
 # Função para verificar se a nota é válida
 def verificar_nota(nota):
     if nota < 0 or nota > 10:
         print("Nota inválida! Deve ser entre 0 e 10.")
-        print("O Sistema será encerrado e terá que rodar o sistema novamente.")
-
+        print("O sistema será encerrado.")
         return False
+    return True
 
 
 # Função para calcular a média das 3 notas
@@ -46,7 +48,8 @@ def situacao_aluno(media):
 # Pede ao usuário a quantidade de alunos
 quantidade_alunos = int(input("Digite a quantidade de alunos: "))
 
-verificar_quantidade(quantidade_alunos)
+if verificar_quantidade(quantidade_alunos) == False:
+    exit()
 
 lista_alunos = []
 
@@ -55,8 +58,6 @@ for i in range(quantidade_alunos):
 
     print(f"\nAluno {i + 1}:")
     nome = input("Digite o nome do aluno: ")
-
-# Verifica se tem caracteres especiais no nome
 
     if verificar_nome(nome) == False:
         break
@@ -73,6 +74,9 @@ for i in range(quantidade_alunos):
 
         lista.append(nota)
 
+    if len(lista) < 3:
+        break
+
     # Calcula a média
     media = calcular_media(lista)
 
@@ -81,6 +85,7 @@ for i in range(quantidade_alunos):
 
     # Guarda os dados do aluno
     lista_alunos.append([nome, lista[0], lista[1], lista[2], media, situacao])
+
 
 print("\nQuantidade total de alunos:", len(lista_alunos))
 
@@ -94,5 +99,4 @@ for aluno in lista_alunos:
     print("Média:", aluno[4])
     print("Situação:", aluno[5])
     print()
-
     print(50 * "_")
